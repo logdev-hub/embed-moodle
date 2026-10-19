@@ -1,0 +1,111 @@
+<!--
+=====================================================================
+EMBED RESPONSIVO PARA O CURSO id=27 (Moodle)
+=====================================================================
+COMO INSTALAR
+1. Administração do site > Aparência > HTML adicional
+2. Cole TODO o bloco abaixo (de <style> até </script>) no campo
+   "Dentro do HEAD".
+3. Salve e limpe os caches (Administração do site > Desenvolvimento > Limpar caches).
+4. Troque a constante URL_DO_HTML pelo endereço público (https) do seu arquivo.
+
+COMO FUNCIONA
+- Só atua em páginas do curso 27 (classe "course-27" no <body>).
+- Cobre a tela inteira com um iframe (100% da largura e da altura,
+  funciona em celular, tablet e desktop), escondendo menu, cabeçalho,
+  gavetas laterais, rodapé e conteúdo do curso.
+- NÃO atua quando você está no modo de edição, nem quando a URL tem
+  &embed=off. Assim você, como administrador, continua conseguindo
+  gerenciar o curso:
+  https://ead.amandamoura.com/course/view.php?id=27&embed=off
+
+REQUISITOS
+- O arquivo HTML precisa estar em https e permitir ser exibido em iframe
+  (GitHub Pages, por exemplo, permite).
+=====================================================================
+-->
+
+<style>
+  /* Oculta a interface do Moodle no curso 27 (a menos que embed=off ou modo de edição) */
+  body.path-course-view.course-27:not(.editing):not(.embed-off) {
+    overflow: hidden !important;
+  }
+  body.path-course-view.course-27:not(.editing):not(.embed-off) .navbar,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) #page-header,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) #page-navbar,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) .secondary-navigation,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) [data-region="drawer"],
+  body.path-course-view.course-27:not(.editing):not(.embed-off) .drawer-toggles,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) #page-footer,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) #region-main-box,
+  body.path-course-view.course-27:not(.editing):not(.embed-off) .btn-footer-popover {
+    display: none !important;
+  }
+
+  /* Contêiner do embed: tela cheia e responsivo */
+  #embed-curso-27 {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;           /* respeita a barra de endereço no celular */
+    z-index: 99999;
+    background: #fff;
+  }
+  #embed-curso-27 iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+
+<script>
+(function () {
+  // >>> TROQUE AQUI pelo endereço público do seu HTML <<<
+  var URL_DO_HTML = "https://logdev-hub.github.io/SEU-ARQUIVO.html";
+
+  var CURSO_ID = "27";
+
+  function iniciar() {
+    var body = document.body;
+    if (!body) return;
+
+    // Só no curso 27, na página de visualização do curso
+    if (!body.classList.contains("path-course-view") ||
+        !body.classList.contains("course-" + CURSO_ID)) return;
+
+    // Desvio para administração: ?id=27&embed=off
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("embed") === "off") {
+      body.classList.add("embed-off");
+      return;
+    }
+
+    // Não atua no modo de edição
+    if (body.classList.contains("editing")) return;
+
+    // Evita duplicar
+    if (document.getElementById("embed-curso-27")) return;
+
+    var wrap = document.createElement("div");
+    wrap.id = "embed-curso-27";
+
+    var frame = document.createElement("iframe");
+    frame.src = URL_DO_HTML;
+    frame.title = "Conteúdo do curso";
+    frame.setAttribute("allow", "fullscreen; clipboard-write");
+    frame.setAttribute("allowfullscreen", "");
+    frame.setAttribute("loading", "eager");
+
+    wrap.appendChild(frame);
+    body.appendChild(wrap);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
+})();
+</script>
