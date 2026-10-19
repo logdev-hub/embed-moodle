@@ -1,111 +1,65 @@
-<!--
-=====================================================================
-EMBED RESPONSIVO PARA O CURSO id=27 (Moodle)
-=====================================================================
-COMO INSTALAR
-1. Administração do site > Aparência > HTML adicional
-2. Cole TODO o bloco abaixo (de <style> até </script>) no campo
-   "Dentro do HEAD".
-3. Salve e limpe os caches (Administração do site > Desenvolvimento > Limpar caches).
-4. Troque a constante URL_DO_HTML pelo endereço público (https) do seu arquivo.
-
-COMO FUNCIONA
-- Só atua em páginas do curso 27 (classe "course-27" no <body>).
-- Cobre a tela inteira com um iframe (100% da largura e da altura,
-  funciona em celular, tablet e desktop), escondendo menu, cabeçalho,
-  gavetas laterais, rodapé e conteúdo do curso.
-- NÃO atua quando você está no modo de edição, nem quando a URL tem
-  &embed=off. Assim você, como administrador, continua conseguindo
-  gerenciar o curso:
-  https://ead.amandamoura.com/course/view.php?id=27&embed=off
-
-REQUISITOS
-- O arquivo HTML precisa estar em https e permitir ser exibido em iframe
-  (GitHub Pages, por exemplo, permite).
-=====================================================================
--->
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Embed</title>
 <style>
-  /* Oculta a interface do Moodle no curso 27 (a menos que embed=off ou modo de edição) */
-  body.path-course-view.course-27:not(.editing):not(.embed-off) {
-    overflow: hidden !important;
-  }
-  body.path-course-view.course-27:not(.editing):not(.embed-off) .navbar,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) #page-header,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) #page-navbar,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) .secondary-navigation,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) [data-region="drawer"],
-  body.path-course-view.course-27:not(.editing):not(.embed-off) .drawer-toggles,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) #page-footer,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) #region-main-box,
-  body.path-course-view.course-27:not(.editing):not(.embed-off) .btn-footer-popover {
-    display: none !important;
-  }
-
-  /* Contêiner do embed: tela cheia e responsivo */
-  #embed-curso-27 {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;           /* respeita a barra de endereço no celular */
-    z-index: 99999;
-    background: #fff;
-  }
-  #embed-curso-27 iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
+  :root { --azul:#1d4ed8; --escuro:#0f172a; --claro:#f1f5f9; --verde:#16a34a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--escuro); background:var(--claro); line-height:1.55; }
+  header { background: linear-gradient(135deg, var(--azul), #7c3aed); color:#fff; padding: clamp(24px, 6vw, 64px) clamp(16px, 5vw, 48px); }
+  header h1 { margin:0 0 8px; font-size: clamp(1.5rem, 4vw, 2.6rem); }
+  header p { margin:0; opacity:.92; max-width: 60ch; }
+  main { max-width: 1100px; margin: 0 auto; padding: clamp(16px, 4vw, 40px); }
+  .ok { display:inline-block; background:var(--verde); color:#fff; padding:6px 14px; border-radius:999px; font-weight:600; font-size:.9rem; margin-bottom:16px; }
+  .grid { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background:#fff; border-radius:14px; padding:20px; box-shadow:0 2px 10px rgba(15,23,42,.08); }
+  .card h3 { margin:0 0 8px; color:var(--azul); }
+  .info { margin-top:24px; background:#fff; border-left:6px solid var(--azul); border-radius:10px; padding:16px 20px; }
+  .info b { color:var(--azul); }
+  button { background:var(--azul); color:#fff; border:0; padding:12px 20px; border-radius:10px; font-size:1rem; cursor:pointer; margin-top:12px; }
+  button:hover { filter:brightness(1.1); }
+  footer { text-align:center; padding:24px; color:#64748b; font-size:.85rem; }
 </style>
-
-<script>
-(function () {
-  // >>> TROQUE AQUI pelo endereço público do seu HTML <<<
-  var URL_DO_HTML = "https://logdev-hub.github.io/SEU-ARQUIVO.html";
-
-  var CURSO_ID = "27";
-
-  function iniciar() {
-    var body = document.body;
-    if (!body) return;
-
-    // Só no curso 27, na página de visualização do curso
-    if (!body.classList.contains("path-course-view") ||
-        !body.classList.contains("course-" + CURSO_ID)) return;
-
-    // Desvio para administração: ?id=27&embed=off
-    var params = new URLSearchParams(window.location.search);
-    if (params.get("embed") === "off") {
-      body.classList.add("embed-off");
-      return;
+</head>
+<body>
+  <header>
+    <h1>Embed funcionando 🎉</h1>
+    <p>Esta página está dentro de um iframe no curso id=27. Todo o resto da interface do Moodle foi ocultado.</p>
+  </header>
+  <main>
+    <span class="ok">✔ Teste de embed ativo</span>
+    <div class="grid">
+      <div class="card"><h3>Responsivo</h3><p>Redimensione a janela ou abra no celular: os cartões se reorganizam automaticamente.</p></div>
+      <div class="card"><h3>Tela cheia</h3><p>O iframe ocupa 100% da largura e da altura da janela, sem menus nem rodapé do Moodle.</p></div>
+      <div class="card"><h3>Rolagem própria</h3><p>O conteúdo rola dentro do iframe, sem barra dupla de rolagem na página do Moodle.</p></div>
+    </div>
+    <div class="info">
+      <p><b>Largura:</b> <span id="w">-</span> px &nbsp;|&nbsp; <b>Altura:</b> <span id="h">-</span> px &nbsp;|&nbsp; <b>Tela:</b> <span id="t">-</span></p>
+      <button id="btn" type="button">Testar JavaScript</button>
+      <p id="msg"></p>
+    </div>
+    <div class="info">
+      <p>Role a página para testar a rolagem interna.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
+      <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor.</p>
+      <p>Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.</p>
+    </div>
+  </main>
+  <footer>Conteúdo de teste • curso id=27</footer>
+  <script>
+    function atualizar() {
+      var w = window.innerWidth;
+      document.getElementById("w").textContent = w;
+      document.getElementById("h").textContent = window.innerHeight;
+      document.getElementById("t").textContent = w < 600 ? "Celular" : (w < 1024 ? "Tablet" : "Desktop");
     }
-
-    // Não atua no modo de edição
-    if (body.classList.contains("editing")) return;
-
-    // Evita duplicar
-    if (document.getElementById("embed-curso-27")) return;
-
-    var wrap = document.createElement("div");
-    wrap.id = "embed-curso-27";
-
-    var frame = document.createElement("iframe");
-    frame.src = URL_DO_HTML;
-    frame.title = "Conteúdo do curso";
-    frame.setAttribute("allow", "fullscreen; clipboard-write");
-    frame.setAttribute("allowfullscreen", "");
-    frame.setAttribute("loading", "eager");
-
-    wrap.appendChild(frame);
-    body.appendChild(wrap);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", iniciar);
-  } else {
-    iniciar();
-  }
-})();
-</script>
+    window.addEventListener("resize", atualizar);
+    atualizar();
+    document.getElementById("btn").addEventListener("click", function () {
+      document.getElementById("msg").textContent = "JavaScript funcionando dentro do iframe! ✅";
+    });
+  </script>
+</body>
+</html>
